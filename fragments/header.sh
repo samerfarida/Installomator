@@ -1,4 +1,19 @@
 #!/bin/zsh
+
+trap_with_arg() {
+    func="$1" ; shift
+    for sig ; do
+        trap "$func $sig" "$sig"
+    done
+}
+
+func_trap() {
+    printlog "Script has been Terminated with: $1"
+    cleanupAndExit "255"
+}
+
+trap_with_arg func_trap SIGHUP SIGINT SIGQUIT SIGABRT SIGTERM SIGTSTP
+
 label="" # if no label is sent to the script, this will be used
 
 # Installomator
